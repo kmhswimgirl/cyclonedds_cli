@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cyclonedds = "cyclone_cli.cyclone_cli:cli"
+cyclonedds = "cyclone_cli:cli"
 
 [build-system]
 requires = ["flit_core<4"]
