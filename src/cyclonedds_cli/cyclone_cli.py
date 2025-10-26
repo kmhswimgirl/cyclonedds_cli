@@ -1,17 +1,14 @@
 import click
 import os
 import xml.etree.ElementTree as et
-from xml_formatting import XMLFormatting as xml
+from src.cyclonedds_cli.xml_formatting import XMLFormatting as xml
 
 prefix =  '{https://cdds.io/config}'
 
-xml_rel = "test_files/test.xml"
-xml_path = os.path.abspath(xml_rel)
 
 real_xml_path = os.getenv('CYCLONEDDS_URI')
-'''CYCLONEDDS_URI=~/cyclonedds.xml'''
 
-tree = et.parse(xml_path)
+tree = et.parse(real_xml_path)
 root = tree.getroot()
 
 ns = {'c': 'https://cdds.io/config'}  # map prefix to the namespace URI
@@ -52,14 +49,12 @@ def peer_add(address):
     xml._indent(root)
     
     # write out
-    tree.write(xml_path, encoding="utf-8", xml_declaration=False)
+    tree.write(real_xml_path, encoding="utf-8", xml_declaration=False)
     click.echo(f"--> added {address} to the list of peers")
 
 @peer.command('delete')
 @click.argument('target')
 def peer_delete(target):
-
-    # target = target.strip()
 
     peers_elem = root.find('.//c:Peers', ns)
     if peers_elem is None:
@@ -83,7 +78,7 @@ def peer_delete(target):
     xml._normalize_whitespace(root)
     xml._indent(root)
 
-    tree.write(xml_path, encoding="utf-8", xml_declaration=False)
+    tree.write(real_xml_path, encoding="utf-8", xml_declaration=False)
     click.echo(f"--> removed {target} from the list of peers")
     
 # command for listing all available peer addresses
@@ -91,3 +86,4 @@ def peer_delete(target):
 def peer_list():
     for peer in root.iter(f'{prefix}Peer'):
         print(peer.attrib.get('address'))
+

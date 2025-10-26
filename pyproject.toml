@@ -1,5 +1,5 @@
 [project]
-name = "cyclone_cli"
+name = "cyclonedds_cli"
 version = "1.0.0"
 description = "CLI tool to edit your cyclone DDS config file"
 requires-python = ">=3.11"
@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cyclonedds = "cyclone_cli:cli"
+cydds = "cyclonedds_cli.cyclone_cli:cli"
 
 [build-system]
 requires = ["flit_core<4"]
